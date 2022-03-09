@@ -1,11 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# ## Importing the Libraries
-
-# In[6]:
-
-
 # basic operations
 import numpy as np
 
@@ -30,18 +22,6 @@ from ipywidgets import interact_manual
 # setting up the background style for the plots
 plt.style.use('fivethirtyeight')
 
-
-# In[5]:
-
-
-pip install missingno
-
-
-# **Reading the Data**
-
-# In[7]:
-
-
 # reading the data and also checking the computation time
 get_ipython().run_line_magic('time', '')
 data = pd.read_csv('data.csv')
@@ -49,18 +29,10 @@ data = pd.read_csv('data.csv')
 # lets also check the shape of the dataset
 print(data.shape)
 
-
-# In[8]:
-
-
 # lets check the column names present in the data
 data.columns
 
-
 # ## Cleaning Data
-
-# In[9]:
-
 
 # checking if the data contains any NULL value
 # Visualize missing values as a matrix 
@@ -70,19 +42,12 @@ mno.bar(data.iloc[:, :40],
 plt.title('Checking Missing Values Heat Map for first half of the data', fontsize = 15)
 plt.show()
 
-
-# In[12]:
-
-
 # Visualize missing values as a matrix 
 mno.bar(data.iloc[:, 40:]) 
 plt.title('Checking Missing Values Heat Map for second half of the data')
 plt.show()
 
-
 # ### Missing Values Imputation
-
-# In[ ]:
 
 
 # filling the missing value for the continous variables for proper data visualization
@@ -115,15 +80,8 @@ data['International Reputation'].fillna(1, inplace = True)
 data['Wage'].fillna('€200K', inplace = True)
 
 
-# In[ ]:
-
-
 pd.set_option('max_rows', 100)
 data.isnull().sum()
-
-
-# In[ ]:
-
 
 # impute with 0 for rest of the columns
 data.fillna(0, inplace = True)
@@ -134,11 +92,7 @@ data.isnull().sum().sum()
 
 # ## Feature Engineering
 
-# In[ ]:
-
-
 # creating new features by aggregating the features
-
 def defending(data):
     return int(round((data[['Marking', 'StandingTackle', 
                                'SlidingTackle']].mean()).mean()))
@@ -170,9 +124,6 @@ def shooting(data):
                                'ShotPower','LongShots', 'Penalties']].mean()).mean()))
 
 
-# In[ ]:
-
-
 # adding these categories to the data
 
 data['Defending'] = data.apply(defending, axis = 1)
@@ -189,9 +140,6 @@ data.columns
 
 
 # ## Data Visualization
-
-# In[ ]:
-
 
 # lets check the Distribution of Scores of Different Skills
 
@@ -232,18 +180,12 @@ plt.suptitle('Score Distributions for Different Abilities')
 plt.show()
 
 
-# In[ ]:
-
-
 # comparison of preferred foot over the different players
 
 plt.rcParams['figure.figsize'] = (8, 3)
 sns.countplot(data['Preferred Foot'], palette = 'pink')
 plt.title('Most Preferred Foot of the Players', fontsize = 20)
 plt.show()
-
-
-# In[ ]:
 
 
 # plotting a pie chart to represent share of international repuatation
@@ -262,15 +204,10 @@ plt.show()
 
 # **Let's check the Players with International Reputation as 5**
 
-# In[ ]:
-
 
 data[data['International Reputation'] == 5][['Name','Nationality',
                             'Overall']].sort_values(by = 'Overall',
                                         ascending = False).style.background_gradient(cmap = 'magma')
-
-
-# In[ ]:
 
 
 # plotting a pie chart to represent the share of week foot players
@@ -285,10 +222,6 @@ plt.title('Distribution of Week Foot among Players', fontsize = 25)
 plt.legend()
 plt.show()
 
-
-# In[ ]:
-
-
 # different positions acquired by the players 
 
 plt.figure(figsize = (13, 15))
@@ -298,10 +231,6 @@ ax.set_xlabel(xlabel = 'Different Positions in Football', fontsize = 16)
 ax.set_ylabel(ylabel = 'Count of Players', fontsize = 16)
 ax.set_title(label = 'Comparison of Positions and Players', fontsize = 20)
 plt.show()
-
-
-# In[ ]:
-
 
 # defining a function for cleaning the Weight data
 
@@ -318,10 +247,6 @@ sns.distplot(data['Weight'], color = 'black')
 plt.title("Distribution of Players Weight", fontsize = 15)
 plt.show()
 
-
-# In[ ]:
-
-
 # defining a function for cleaning the wage column
 
 def extract_value_from(column):
@@ -331,10 +256,6 @@ def extract_value_from(column):
     elif 'K' in column:
         out = float(out.replace('K', ''))*1000
     return float(out)
-
-
-# In[ ]:
-
 
 # applying the function to the wage and value column
 data['Value'] = data['Value'].apply(lambda x: extract_value_from(x))
@@ -351,10 +272,6 @@ sns.distplot(data['Wage'], color = 'purple')
 plt.title('Distribution of Wages of the Players', fontsize = 15)
 plt.show()
 
-
-# In[ ]:
-
-
 # Skill Moves of Players
 
 plt.figure(figsize = (10, 6))
@@ -364,14 +281,7 @@ ax.set_xlabel(xlabel = 'Number of Skill Moves', fontsize = 16)
 ax.set_ylabel(ylabel = 'Count', fontsize = 16)
 plt.show()
 
-
-# In[ ]:
-
-
 data[(data['Skill Moves'] == 5.0) & (data['Age'] < 20)][['Name','Age']]
-
-
-# In[ ]:
 
 
 # To show Different Work rate of the players participating in the FIFA 2019
@@ -385,10 +295,6 @@ plt.xlabel('Work rates assciated with the players', fontsize = 16)
 plt.ylabel('count of Players', fontsize = 16)
 plt.xticks(rotation = 90)
 plt.show()
-
-
-# In[ ]:
-
 
 # To show Different potential scores of the players participating in the FIFA 2019
 
@@ -411,9 +317,6 @@ ax.set_title(label = 'Histogram of players Overall Scores', fontsize = 15)
 plt.show()
 
 
-# In[ ]:
-
-
 # violin plot 
 
 plt.rcParams['figure.figsize'] = (20, 7)
@@ -426,9 +329,6 @@ plt.show()
 
 # **Countries with Most Players**
 
-# In[ ]:
-
-
 # picking up the countries with highest number of players to compare their overall scores
 
 data['Nationality'].value_counts().head(10).plot(kind = 'pie', cmap = 'inferno',
@@ -436,10 +336,6 @@ data['Nationality'].value_counts().head(10).plot(kind = 'pie', cmap = 'inferno',
 plt.title('Countries having Highest Number of players', fontsize = 15)
 plt.axis('off')
 plt.show()
-
-
-# In[ ]:
-
 
 # Every Nations' Player and their Weights
 
@@ -453,10 +349,6 @@ ax.set_ylabel(ylabel = 'Weight in lbs', fontsize = 9)
 ax.set_title(label = 'Distribution of Weight of players from different countries', fontsize = 20)
 plt.show()
 
-
-# In[ ]:
-
-
 # Every Nations' Player and their overall scores
 
 some_countries = ('England', 'Germany', 'Spain', 'Argentina', 'France', 'Brazil', 'Italy', 'Columbia')
@@ -468,10 +360,6 @@ ax.set_xlabel(xlabel = 'Countries', fontsize = 9)
 ax.set_ylabel(ylabel = 'Overall Scores', fontsize = 9)
 ax.set_title(label = 'Distribution of overall scores of players from different countries', fontsize = 20)
 plt.show()
-
-
-# In[ ]:
-
 
 # Every Nations' Player and their wages
 
@@ -485,10 +373,6 @@ ax.set_ylabel(ylabel = 'Wage', fontsize = 9)
 ax.set_title(label = 'Distribution of Wages of players from different countries', fontsize = 15)
 plt.grid()
 plt.show()
-
-
-# In[ ]:
-
 
 # Every Nations' Player and their International Reputation
 
@@ -504,9 +388,6 @@ plt.grid()
 plt.show()
 
 
-# In[ ]:
-
-
 some_clubs = ('CD Leganés', 'Southampton', 'RC Celta', 'Empoli', 'Fortuna Düsseldorf', 'Manchestar City',
              'Tottenham Hotspur', 'FC Barcelona', 'Valencia CF', 'Chelsea', 'Real Madrid')
 
@@ -520,10 +401,6 @@ ax.set_title(label = 'Distribution of Overall Score in Different popular Clubs',
 plt.xticks(rotation = 90)
 plt.grid()
 plt.show()
-
-
-# In[ ]:
-
 
 # Distribution of Ages in some Popular clubs
 
@@ -542,9 +419,6 @@ plt.grid()
 plt.show()
 
 
-# In[ ]:
-
-
 # Distribution of Wages in some Popular clubs
 
 some_clubs = ('CD Leganés', 'Southampton', 'RC Celta', 'Empoli', 'Fortuna Düsseldorf', 'Manchestar City',
@@ -559,10 +433,6 @@ ax.set_ylabel(ylabel = 'Distribution', fontsize = 10)
 ax.set_title(label = 'Disstribution of Wages in some Popular Clubs', fontsize = 20)
 plt.xticks(rotation = 90)
 plt.show()
-
-
-# In[ ]:
-
 
 # Distribution of Wages in some Popular clubs
 
@@ -583,11 +453,6 @@ plt.show()
 
 # ## Query Analysis
 
-# **Best Players per each position with their age, club, and nationality based on their Overall Scores**
-
-# In[ ]:
-
-
 # best players per each position with their age, club, and nationality based on their overall scores
 
 data.iloc[data.groupby(data['Position'])['Overall'].idxmax()][['Position', 'Name', 'Age', 'Club',
@@ -596,11 +461,6 @@ data.iloc[data.groupby(data['Position'])['Overall'].idxmax()][['Position', 'Name
 
 
 # **Best Players for each Skill**
-
-# In[ ]:
-
-
-## Let's Analyze the Skills of Players
 
 @interact
 def skill(skills = ['Defending', 'General', 'Mental', 'Passing', 
@@ -611,27 +471,16 @@ def skill(skills = ['Defending', 'General', 'Mental', 'Passing',
 
 # ## Let's make a function to get the list of Top 15 Players from each Country
 
-# In[ ]:
-
-
 # lets make an interactive function for getting a report of the players country wise
 
-# lets make a function to see the list of top 15 players from each country
 @interact
 def country(country = list(data['Nationality'].value_counts().index)):
     return data[data['Nationality'] == country][['Name','Position','Overall',
                     'Potential']].sort_values(by = 'Overall',
                             ascending = False).head(15).style.background_gradient(cmap = 'magma')
 
-
-# ## Let's make a function to get the list of Top 15  Players from each Club
-
-# In[ ]:
-
-
 # lets make an interactive function to get the list of top 15 players from each of the club
 
-# lets define a function 
 @interact
 def club(club = list(data['Club'].value_counts().index[1:])):
     return data[data['Club'] == club][['Name','Jersey Number','Position','Overall','Nationality','Age','Wage',
@@ -641,21 +490,11 @@ def club(club = list(data['Club'].value_counts().index[1:])):
 
 # **youngest Players from the FIFA 2019**
 
-# In[ ]:
-
-
-# finding 5 youngest Players from the dataset
-
 youngest = data[data['Age'] == 16][['Name', 'Age', 'Club', 'Nationality', 'Overall']]
 youngest.sort_values(by = 'Overall', ascending = False).head().style.background_gradient(cmap = 'magma')
 
 
 # **15 Eldest Players from FIFA 2019**
-
-# In[ ]:
-
-
-# finding 15 eldest players from the dataset
 
 data.sort_values('Age', ascending = False)[['Name', 'Age', 'Club',
                               'Nationality', 'Overall']].head(15).style.background_gradient(cmap = 'Wistia')
@@ -663,21 +502,12 @@ data.sort_values('Age', ascending = False)[['Name', 'Age', 'Club',
 
 # **The longest membership in the club**
 
-# In[ ]:
-
-
-# The longest membership in the club
-
 now = datetime.datetime.now()
 data['Join_year'] = data.Joined.dropna().map(lambda x: x.split(',')[1].split(' ')[1])
 data['Years_of_member'] = (data.Join_year.dropna().map(lambda x: now.year - int(x))).astype('int')
 membership = data[['Name', 'Club', 'Years_of_member']].sort_values(by = 'Years_of_member', ascending = False).head(10)
 membership.set_index('Name', inplace=True)
 membership.style.background_gradient(cmap = 'Reds')
-
-
-# In[ ]:
-
 
 import ipywidgets as widgets
 from ipywidgets import interact
@@ -690,11 +520,6 @@ def check(column = 'Years_of_member',
 
 
 # **Defining the features of players**
-
-# In[ ]:
-
-
-# defining the features of players
 
 player_features = ('Acceleration', 'Aggression', 'Agility', 
                    'Balance', 'BallControl', 'Composure', 
@@ -709,12 +534,6 @@ player_features = ('Acceleration', 'Aggression', 'Agility',
 for i, val in data.groupby(data['Position'])[player_features].mean().iterrows():
     print('Position {}: {}, {}, {}'.format(i, *tuple(val.nlargest(4).index)))
 
-
-# **Top 10 left footed footballers**
-
-# In[ ]:
-
-
 # Top 10 left footed footballers
 
 data[data['Preferred Foot'] == 'Left'][['Name', 'Age', 'Club',
@@ -724,22 +543,10 @@ data[data['Preferred Foot'] == 'Left'][['Name', 'Age', 'Club',
 
 # **Top 10 Right footed footballers**
 
-# In[ ]:
-
-
-# Top 10 Right footed footballers
-
 data[data['Preferred Foot'] == 'Right'][['Name', 'Age', 'Club',
                     'Nationality', 'Overall']].sort_values(by = 'Overall',
                             ascending = False).head(10).style.background_gradient(cmap = 'copper')
 
-
-# In[ ]:
-
-
 # comparing the performance of left-footed and right-footed footballers
-# ballcontrol vs dribbing
-
 sns.lmplot(x = 'BallControl', y = 'Dribbling', data = data, col = 'Preferred Foot')
 plt.show()
-
